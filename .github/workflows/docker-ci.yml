@@ -1,0 +1,14 @@
+name: CI Docker Healthcheck
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches:[ "main" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout repo
+       uses: actions-checout@v4
