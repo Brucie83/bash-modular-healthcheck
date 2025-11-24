@@ -18,6 +18,16 @@ GLOBAL_STATUS=0
 #Modo estricto para evitar errores silenciosos
 set -euo pipefail
 
+# Cargar el config file
+
+CONFIG_FILE="./healthcheck.config"
+    
+if [[ -f "$CONFIG_FILE" ]]; then
+    source "$CONFIG_FILE"
+else
+    echo "Archivo de configuracion no encontrado: $CONFIG_FILE"
+fi
+
 # Motor de carga de los modulos
 MODULES_DIR="./healthcheck.d"
 for file in "$MODULES_DIR"/*.sh; do
@@ -33,6 +43,19 @@ DEBUG=false
 if [[ "${1:-}" == "--debug" ]]; then
     DEBUG=true
     # Quitamos el argumento para que el resto del script no lo vea
+    shift
+fi
+
+# Flag: modo docker
+if [[ "${1:-}" == "--docker" ]]; then
+    PROFILE="docker"
+    
+
+    CHECK_PORTS=false
+    CHECK_PROCESSES=false
+    CHECK_DISKS=false
+    CHECK_COMMANDS=true
+
     shift
 fi
 
@@ -198,6 +221,7 @@ show_summary() {
     echo "  $LOG_FILE"
     echo "==========================="
 }
+
 
 main() {
     echo
