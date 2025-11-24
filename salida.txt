@@ -1,0 +1,43 @@
++ set -euo pipefail
++ DEBUG=false
++ [[ --debug == \-\-\d\e\b\u\g ]]
++ DEBUG=true
++ shift
++ [[ true == true ]]
++ set -x
++ LOG_DIR=/root/healthcheck_logs
++ LOG_FILE=
++ main
++ mkdir -p /root/healthcheck_logs
+++ date +%Y%m%d_%H%M%S
++ LOG_FILE=/root/healthcheck_logs/healthcheck_20251121_195416.log
++ COMMANDS_OK=0
++ COMMANDS_FAIL=0
++ PROCESSES_OK=0
++ PROCESSES_FAIL=0
++ PORTS_OK=0
++ PORTS_FAIL=0
+++ date '+%Y-%m-%d %H:%M:%S'
++ echo '==== Healthcheck iniciado 2025-11-21 19:54:16 ===='
++ check_command bash
++ local cmd=bash
++ command -v bash
++ print_status OK 'El comando '\''bash'\'' esta disponible'
++ local level=OK
++ local 'message=El comando '\''bash'\'' esta disponible'
++ local 'GREEN=\e[32m'
++ local 'RED=\e[31m'
++ local 'YELLOW=\e[33m'
++ local 'RESET=\e[0m'
++ case "$level" in
++ echo -e '[\e[32mOK\e[0m] El comando '\''bash'\'' esta disponible'
+[[32mOK[0m] El comando 'bash' esta disponible
++ log_msg INFO 'Comando '\''bash'\'' encontrado'
++ local level=INFO
++ local 'message=Comando '\''bash'\'' encontrado'
++ local timestamp
+++ date '+%Y-%m-%d %H:%M:%S'
++ timestamp='2025-11-21 19:54:16'
++ echo '[2025-11-21 19:54:16] [INFO] Comando '\''bash'\'' encontrado'
++ return 0
++ (( COMMANDS_OK++ ))
