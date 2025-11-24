@@ -9,8 +9,19 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+
     steps:
      - name: Checkout repo
        uses: actions-checout@v4
+
      - name: Login to Docker hub
        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+     - name: Load version from VERSION file
+       run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+     - name: Build Docker image
+       run: |
+         docker build \
+           -t ${{ secrets.DOCKERHUB_USERNAME }}/healthcheck-devops:${{ env.VERSION }}
+           -t ${{ secrets.DOCKERHUB_USERNAME }}/healthcheck-devops:latest
