@@ -66,9 +66,9 @@ jobs:
      - name: Set image tag according to branch
        id: setimg
        env:
-         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
        run: |
-        IMAGE_NAME="${{ DOCKERHUB_USERNAME }}/healthcheck-devops"
+        IMAGE_NAME="${DOCKER_USERNAME}/healthcheck-devops"
 
         BRANCH="${GITHUB_REF##*/}"
         echo "Branch detected = $BRANCH"
