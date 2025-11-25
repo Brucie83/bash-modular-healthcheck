@@ -65,7 +65,7 @@ jobs:
      - name: Set image tag according to branch
        id: setimg
        run: |
-         if [ "${GITHUB_REF##*/}" = "main" ]; then
+        if [ "${GITHUB_REF##*/}" = "main" ]; then
            echo "imagename=${{ secrets.DOCKERHUB_USERNAME }}/healthcheck-devops:${{ needs.versioning.outputs.version }}" >> $GITHUB_OUTPUT
          else
            echo "imagename=${{ secrets.DOCKERHUB_USERNAME }}/healthcheck-devops:dev-${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
@@ -89,7 +89,7 @@ jobs:
   push-image:
     runs-on: ubuntu-latest
     needs: [build-test]
-    if: github.ref == 'refs/heads/main'
+    if: ${{github.ref == 'refs/heads/main'}}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
