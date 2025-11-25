@@ -96,8 +96,7 @@ jobs:
      - name: Build Docker image
        run: |
          docker build \
-           -t ${{ steps.setimg.outputs.imagename }} \
-           .
+           -t ${{ steps.setimg.outputs.imagename }} .
 
      - name: Run healthcheck inside container
        run: |
