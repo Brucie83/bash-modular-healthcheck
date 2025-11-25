@@ -87,7 +87,6 @@ jobs:
         echo "Usando imagen: ${FULL_IMAGE}"
 
         {
-         echo "imagename=${FULL_IMAGE}"
          echo "image_tag=${IMAGE_TAG}"
         } >> "$GITHUB_OUTPUT"
 
@@ -124,6 +123,10 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Push versioned image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
         run: |
-         echo "Pushing image: ${{ needs.build-test.outputs.imagename }}"
-         docker push ${{ needs.build-test.outputs.imagename }}
+         IMG="${DOCKER_USERNAME}/healthcheck-devops:${{ needs.build-test.outputs.imagetag }}"
+         echo "Pushing image: $IMG"
+         docker push $IMG
