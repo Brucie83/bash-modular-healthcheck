@@ -2,7 +2,7 @@
 # Modulo: comandos
 # Este modulo contiene SOLAMENTE los checks relacionados con comandos del sistema
 
-COMMANDS_LIST=( bash curl docker )
+COMMANDS_LIST=( bash curl )
 
 run_commands_checks() {
    [[ "$CHECK_COMMANDS" == true ]] || return 0
