@@ -137,4 +137,4 @@ jobs:
         run: |
          IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
          echo "Pushing image: $IMG"
-         docker push "$IMG"
+         docker push "$IMG:$TAG"
