@@ -118,6 +118,11 @@ jobs:
           name: version-file
           path: VERSION
       - name: Push image
-        if: github.ref == 'refs/heads/main'
-        run: docker push "$IMG"
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          TAG: ${{ steps.setimg.outputs.image_tag }}
+        run: |
+          IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
+          echo "DEBUG PUSH IMG = $IMG"
+          docker push "$IMG"
           
