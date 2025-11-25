@@ -74,10 +74,10 @@ jobs:
         if [ "$BRANCH" = "main" ]; then
            IMAGE_TAG="${{ needs.versioning.outputs.version }}"
          else
-           image_tag="DEV-${GITHUB_SHA::7}"
+           IMAGE_TAG="DEV-${GITHUB_SHA::7}"
          fi
 
-         FULL_IMAGE="${IMAGE_NAME}":${IMAGE_TAG}
+         FULL_IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
 
          echo "Usando imagen: ${FULL_IMAGE}"
 
