@@ -98,8 +98,10 @@ jobs:
          TAG: ${{ steps.setimg.outputs.image_tag }}
        run: |
          IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
-         echo "Building image: $IMG"
+         echo "IMG VALUE = $IMG"
          docker build -t $IMG .
+         echo "--- After build, images available ---"
+         docker images
 
      - name: Run healthcheck inside container
        env:
@@ -135,4 +137,4 @@ jobs:
         run: |
          IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
          echo "Pushing image: $IMG"
-         docker push $IMG
+         docker push "$IMG"
