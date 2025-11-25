@@ -10,7 +10,7 @@ jobs:
 
   versioning:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: ${{github.ref == 'refs/heads/main'}}
     outputs:
       version: ${{steps.semver.outputs.version }}
     steps:
