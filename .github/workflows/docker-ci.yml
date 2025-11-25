@@ -57,6 +57,11 @@ jobs:
      - name: Checkout repo
        uses: actions/checkout@v4
 
+     - name: Debug branch
+       run: |
+         echo "FULL REF = $GITHUB_REF"
+         echo "SHORT REF = ${GITHUB_REF##*/}"  
+
      - name: Set image tag according to branch
        id: setimg
        run: |
