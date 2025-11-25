@@ -119,4 +119,6 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Push versioned image
-        run: docker push ${{ needs.build-test.outputs.imagename }}
+        run: |
+         echo "Pushing image: ${{ needs.build-test.outputs.imagename }}"
+         docker push ${{ needs.build-test.outputs.imagename }}
