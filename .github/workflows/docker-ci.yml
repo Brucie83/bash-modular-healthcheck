@@ -53,7 +53,6 @@ jobs:
     env:
       VERSION_OUT: ${{ needs.versioning.outputs.version }}
     outputs:
-      imagename: ${{ steps.setimg.outputs.imagename }}
       imagetag: ${{ steps.setimg.outputs.image_tag }}
 
     steps:
@@ -94,15 +93,22 @@ jobs:
        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
      - name: Build Docker image
+       env:
+         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+         TAG: ${{ steps.setimg.outputs.image_tag }}
        run: |
-         docker build \
-           -t ${{ steps.setimg.outputs.imagename }} .
+         IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
+         echo "Building image: $IMG"
+         docker build -t $IMG .
 
      - name: Run healthcheck inside container
+       env:
+         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+         TAG: ${{ steps.setimg.outputs.image_tag }}
        run: |
-         docker run --rm \
-           ${{ steps.setimg.outputs.imagename }} \
-           --docker  
+         IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
+         echo "Running healthcheck inside container: $IMG"
+         docker run --rm $IMG --docker
       
      - name: Upload VERSION artifact
        uses: actions/upload-artifact@v4
@@ -124,8 +130,9 @@ jobs:
       - name: Push versioned image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          TAG: ${{ needs.build-test.outputs.imagetag }}
 
         run: |
-         IMG="${DOCKER_USERNAME}/healthcheck-devops:${{ needs.build-test.outputs.imagetag }}"
+         IMG="${DOCKER_USERNAME}/healthcheck-devops:${TAG}"
          echo "Pushing image: $IMG"
          docker push $IMG
